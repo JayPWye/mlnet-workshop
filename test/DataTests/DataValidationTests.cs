@@ -11,36 +11,49 @@ namespace DataTests
     [TestClass]
     public class DataValidationTests
     {
-        private static string TRAIN_DATA_FILEPATH = "";
+        private static string TRAIN_DATA_FILEPATH = @"/media/data/true_car_listings.csv";
+
+        private static IEnumerable<ModelInput> Rows;
 
         [ClassInitialize]
         public static void Initialize(TestContext testContext)
         {
+            var mlContext = new MLContext();
+            var data = mlContext.Data.LoadFromTextFile<ModelInput>(TRAIN_DATA_FILEPATH, hasHeader: true, separatorChar: ',');
 
+            Rows = mlContext.Data.CreateEnumerable<ModelInput>(data, false);
         }
 
         [TestMethod]
         public void VerifyValidMilage()
         {
+            var hasInValidMileage = Rows.Any(XmlAssertionExtensions => XmlAssertionExtensions.Mileage < 0);
 
+            hasInValidMileage.Should().BeFalse();
         }
 
         [TestMethod]
         public void VerifyValidPrice()
         {
+            var hasNegativePrice = Rows.Any(X => X.Price < 0);
 
+            hasNegativePrice.Should().BeFalse();
         }
 
         [TestMethod]
         public void VerifyValidYear()
         {
+            var hasvalidYears = Rows.All(x => x.Year > 1950 && x.Year < DateTime.Now.Year + 1);
 
+            hasvalidYears.Should().BeTrue();
         }
 
         [TestMethod]
         public void VerifyMinimumNumberOfRows()
         {
+            var rowCount = Rows.Count();
 
+            rowCount.Should().BeGreaterThan(10000);
         }
     }
 }
