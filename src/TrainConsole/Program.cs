@@ -8,8 +8,8 @@ namespace TrainConsole
     class Program
     {
         // update this with your file's path where you saved it
-        private static string TRAIN_DATA_FILEPATH = @"D:\onedrive\Documents\Coding\C#\ML.NET\MLWorkshop\data\true_car_listings.csv";
-        private static string MODEL_FILEPATH = @"D:\onedrive\Documents\Coding\C#\ML.NET\MLWorkshop\data\Models\MLModel.zip";
+        private static string TRAIN_DATA_FILEPATH = @"/media/data/true_car_listings.csv";  // @"D:\onedrive\Documents\Coding\C#\ML.NET\MLWorkshop\data\true_car_listings.csv";
+        private static string MODEL_FILEPATH = MLConfiguration.GetModelPath();       //@"D:\onedrive\Documents\Coding\C#\ML.NET\MLWorkshop\data\Models\MLModel.zip";
 
         static void Main(string[] args)
         {
